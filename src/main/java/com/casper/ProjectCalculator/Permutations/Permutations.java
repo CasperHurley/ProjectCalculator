@@ -1,0 +1,64 @@
+package com.casper.ProjectCalculator.Permutations;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Permutations {
+
+    public List<List<Double>> getAllStartingPermutations(List<Double> listOfMeasurements) {
+        List<List<Double>> startingPermutations = new ArrayList<>();
+        for (int k = 0; k < listOfMeasurements.size(); k++) {
+            startingPermutations.add(getNextPermutation(listOfMeasurements));
+        }
+        return startingPermutations;
+    }
+
+    public List<Double> getNextPermutation(List<Double> list) {
+        for (int j = 0; j < list.size() - 1; j++) {
+            Double a = list.get(list.size() - 1);
+            int i;
+            for (i = list.size() - 1; i > 0; i--) {
+                list.set((i), list.get(i - 1));
+            }
+            list.set(i, a);
+        }
+        List<Double> copyOfList = new ArrayList<>(list);
+        for (int i = 0; i < list.size(); i++) {
+            copyOfList.set(i, list.get(i));
+        }
+        return copyOfList;
+    }
+
+    public static <T extends Comparable<T>> void checkEachPermutationInThreadForBestPermutation(T[] elements, char delimiter) {
+        Arrays.sort(elements);
+        boolean hasNext = true;
+        while(hasNext) {
+//            printArray(elements, delimiter);
+            int k = 0, l = 0;
+            hasNext = false;
+            for (int i = elements.length - 1; i > 0; i--) {
+                if (elements[i].compareTo(elements[i - 1]) > 0) {
+                    k = i - 1;
+                    hasNext = true;
+                    break;
+                }
+            }
+            for (int i = elements.length - 1; i > k; i--) {
+                if (elements[i].compareTo(elements[k]) > 0) {
+                    l = i;
+                    break;
+                }
+            }
+            swap(elements, k, l);
+            Collections.reverse(Arrays.asList(elements).subList(k + 1, elements.length));
+        }
+    }
+
+    private static <T> void swap(T[] elements, int a, int b) {
+        T tmp = elements[a];
+        elements[a] = elements[b];
+        elements[b] = tmp;
+    }
+}
