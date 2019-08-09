@@ -22,7 +22,6 @@ public class ProjectController {
         inputFromUI = mapper.readValue(json, InputFromUI.class);
         Project project = new Project(inputFromUI.getName());
         LumberPlan lumberPlan = new LumberPlan(inputFromUI.getListOfMeasurements());
-
         project.setLumberPlan(lumberPlan);
         return new ResponseEntity<String>(mapper.writeValueAsString(project), HttpStatus.OK);
     }

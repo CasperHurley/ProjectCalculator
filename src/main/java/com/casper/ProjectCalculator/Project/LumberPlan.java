@@ -4,14 +4,10 @@ import java.util.List;
 
 public class LumberPlan {
     List<Double> listOfMeasurements;
+    CutPlan cutPlan;
 
     public LumberPlan(List<Double> listOfMeasurements) {
         this.listOfMeasurements = listOfMeasurements;
-        this.createLumberPlanFromMeasurements();
+        this.cutPlan = new CutPlan();
     }
-
-    public void createLumberPlanFromMeasurements() {
-
-    }
-
 }

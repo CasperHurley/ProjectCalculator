@@ -6,7 +6,7 @@ import java.util.List;
 public class CutPlan {
     List<Board> boardList;
 
-    public CutPlan() {
+    public CutPlan(List<Double> measurements) {
         boardList = new ArrayList<>();
     }
 
