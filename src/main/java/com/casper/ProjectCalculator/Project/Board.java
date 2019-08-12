@@ -17,7 +17,9 @@ public class Board {
         this.lengthRemaining = length;
 
         // make sure board is good even with both ends squared with a saw
+        // square one end
         CommonUtil.removeWidthOfSawBlade(this.lengthRemaining);
+        // square the other end
         CommonUtil.removeWidthOfSawBlade(this.lengthRemaining);
     }
 
@@ -30,14 +32,6 @@ public class Board {
     public void addMeasurementToBoard(Double measurement) {
         if (checkIfBoardCanFitMeasurement(measurement)) {
             this.measurementsInBoard.add(measurement);
-
-            Double bladeWidth = Double.valueOf(1/8);
-            if (checkIfBoardCanFitMeasurement(bladeWidth)) {
-                // remove saw blade width from remaining
-                CommonUtil.removeWidthOfSawBlade(this.lengthRemaining);
-            } else {
-                this.boardIsFull = true;
-            }
         } else {
             this.boardIsFull = true;
         }

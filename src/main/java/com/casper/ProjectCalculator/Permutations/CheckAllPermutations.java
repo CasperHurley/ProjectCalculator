@@ -12,6 +12,10 @@ public class CheckAllPermutations {
     ExecutorService executorService;
     CutPlan bestCutPlan;
 
+    public CheckAllPermutations() {
+
+    }
+
     public CutPlan getBestCutPlan() {
         return bestCutPlan;
     }

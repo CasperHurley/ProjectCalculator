@@ -6,12 +6,15 @@ import java.util.List;
 public class InputFromUI {
     String name;
     List<Double> listOfMeasurements;
-    Double lengthOfStockBoardInInches;
+    List<Double> stockLengthsToCheck;
 
     public InputFromUI() {
-//        this.name = name;
-//        this.listOfMeasurements = listOfMeasurements;
-//        this.lengthOfStockBoardInInches = lengthOfStockBoardInInches;
+    }
+
+    public InputFromUI(String name, List<Double> listOfMeasurements, List<Double> stockLengthsToCheck) {
+        this.name = name;
+        this.listOfMeasurements = listOfMeasurements;
+        this.stockLengthsToCheck = stockLengthsToCheck;
     }
 
     public String getName() {
@@ -30,11 +33,11 @@ public class InputFromUI {
         this.listOfMeasurements = listOfMeasurements;
     }
 
-    public Double getLengthOfStockBoardInInches() {
-        return lengthOfStockBoardInInches;
+    public List<Double> getStockLengthsToCheck() {
+        return stockLengthsToCheck;
     }
 
-    public void setLengthOfStockBoardInInches(Double lengthOfStockBoardInInches) {
-        this.lengthOfStockBoardInInches = lengthOfStockBoardInInches;
+    public void setStockLengthsToCheck(List<Double> stockLengthsToCheck) {
+        this.stockLengthsToCheck = stockLengthsToCheck;
     }
 }
