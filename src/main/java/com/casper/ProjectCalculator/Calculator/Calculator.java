@@ -140,41 +140,41 @@ public class Calculator {
         return copyOfList;
     }
 
-    public <T extends Comparable<T>> void checkEachPermutationInThreadForBestPermutation(T[] currentPermutation) {
+    public <T extends Comparable<T>> void checkEachPermutationInThreadForBestPermutation(List<Double> currentPermutation) {
         // starts with startingPermutation, runs calculation, shifts, runs calculation, etc, that run func needs to keep updating the bestCutPlanForThisThread
-        Arrays.sort(currentPermutation);
-        CutPlan bestCutPlanThisThread = new CutPlan(convertArrayToList((Double[])currentPermutation), this.lengthOfSingleStockBoardInInches);
+        Collections.sort(currentPermutation);
+        CutPlan bestCutPlanThisThread = new CutPlan(currentPermutation, this.lengthOfSingleStockBoardInInches);
 
         boolean hasNext = true;
         while(hasNext) {
             // printArray(currentPermutation); This is where the magic should happen
             int k = 0, l = 0;
             hasNext = false;
-            for (int i = currentPermutation.length - 1; i > 0; i--) {
-                if (currentPermutation[i].compareTo(currentPermutation[i - 1]) > 0) {
+            for (int i = currentPermutation.size() - 1; i > 0; i--) {
+                if (currentPermutation.get(i).compareTo(currentPermutation.get(i - 1)) > 0) {
                     k = i - 1;
                     hasNext = true;
                     break;
                 }
             }
-            for (int i = currentPermutation.length - 1; i > k; i--) {
-                if (currentPermutation[i].compareTo(currentPermutation[k]) > 0) {
+            for (int i = currentPermutation.size() - 1; i > k; i--) {
+                if (currentPermutation.get(i).compareTo(currentPermutation.get(k)) > 0) {
                     l = i;
                     break;
                 }
             }
             swap(currentPermutation, k, l);
-            Collections.reverse(Arrays.asList(currentPermutation).subList(k + 1, currentPermutation.length));
+            Collections.reverse(Arrays.asList(currentPermutation).subList(k + 1, currentPermutation.size()));
         }
     }
 
-    private static <T> void swap(T[] currentPermutation, int a, int b) {
-        T tmp = currentPermutation[a];
-        currentPermutation[a] = currentPermutation[b];
-        currentPermutation[b] = tmp;
+    private void swap(List<Double> currentPermutation, int a, int b) {
+        Double tmp = currentPermutation.get(a);
+        currentPermutation.set(a, currentPermutation.get(b));
+        currentPermutation.set(b, tmp);
     }
 
-    public static List<Double> convertArrayToList(Double array[]) {
+    public List<Double> convertArrayToList(Double array[]) {
         List<Double> list = new ArrayList<>();
         for (Double t : array) {
             list.add(t);
