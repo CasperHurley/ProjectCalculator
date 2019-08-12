@@ -1,6 +1,6 @@
 package com.casper.ProjectCalculator.Project;
 
-import com.casper.ProjectCalculator.Permutations.CheckAllPermutations;
+import com.casper.ProjectCalculator.Calculator.Calculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +43,8 @@ public class Project {
     public List<CutPlan> calculateBestCutPlansForDifferentStockLengths(InputFromUI inputFromUI) {
         List<CutPlan> bestCutPlansForDifferentStockLengths = new ArrayList<>();
         for (Double stockLengthToCheck : inputFromUI.getStockLengthsToCheck()) {
-            CheckAllPermutations checkAllPermutations = new CheckAllPermutations();
-            CutPlan bestCutPlanForCurrentStockLength = checkAllPermutations.getBestCutPlan();
+            Calculator calculator = new Calculator(listOfMeasurements, stockLengthToCheck);
+            CutPlan bestCutPlanForCurrentStockLength = calculator.getBestCutPlan();
             bestCutPlansForDifferentStockLengths.add(bestCutPlanForCurrentStockLength);
         }
         return bestCutPlansForDifferentStockLengths;
