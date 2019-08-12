@@ -4,13 +4,14 @@ import com.casper.ProjectCalculator.Calculator.Calculator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Project {
     String name;
     List<Double> listOfMeasurements;
     List<CutPlan> bestCutPlansForDifferentStockLengths;
 
-    public Project(InputFromUI inputFromUI) {
+    public Project(InputFromUI inputFromUI) throws ExecutionException, InterruptedException {
         this.name = inputFromUI.getName();
         this.listOfMeasurements = inputFromUI.getListOfMeasurements();
         this.bestCutPlansForDifferentStockLengths = calculateBestCutPlansForDifferentStockLengths(inputFromUI);
@@ -40,7 +41,7 @@ public class Project {
         this.bestCutPlansForDifferentStockLengths = bestCutPlansForDifferentStockLengths;
     }
 
-    public List<CutPlan> calculateBestCutPlansForDifferentStockLengths(InputFromUI inputFromUI) {
+    public List<CutPlan> calculateBestCutPlansForDifferentStockLengths(InputFromUI inputFromUI) throws ExecutionException, InterruptedException {
         List<CutPlan> bestCutPlansForDifferentStockLengths = new ArrayList<>();
         for (Double stockLengthToCheck : inputFromUI.getStockLengthsToCheck()) {
             Calculator calculator = new Calculator(listOfMeasurements, stockLengthToCheck);

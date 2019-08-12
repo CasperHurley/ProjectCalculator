@@ -2,6 +2,7 @@ package com.casper.ProjectCalculator.Project;
 
 import com.casper.ProjectCalculator.Util.CommonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -9,7 +10,7 @@ public class Board {
     Double width;
     Double thickness;
     Double lengthRemaining;
-    List<Double> measurementsInBoard;
+    List<Double> measurementsInBoard = new ArrayList<>();
     boolean boardIsFull = false;
     boolean measurementTooLongForStockLength = false;
 
@@ -86,6 +87,8 @@ public class Board {
     public void tryToAddMeasurementToBoard(Double measurement) {
         if (checkIfBoardCanFitMeasurement(measurement)) {
             this.measurementsInBoard.add(measurement);
+            this.lengthRemaining -= measurement;
+            CommonUtil.removeWidthOfSawBlade(this.lengthRemaining);
         } else {
             this.boardIsFull = true;
         }
@@ -98,4 +101,5 @@ public class Board {
         }
         return boardCanFitMeasurement;
     }
+
 }

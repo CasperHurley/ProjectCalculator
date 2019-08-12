@@ -8,14 +8,12 @@ public class CutPlan {
     List<Board> boardList = new ArrayList<>();
     BigDecimal totalCost;
     Double lengthOfStockBoardInInches;
-    Double goalNumberOfBoards;
     List<Double> currentPermutationOfListOfMeasurements;
     boolean stockLengthIsTooShort = false;
 
-    public CutPlan(List<Double> currentPermutationOfListOfMeasurements, Double lengthOfStockBoardInInches, Double goalNumberOfBoards) {
+    public CutPlan(List<Double> currentPermutationOfListOfMeasurements, Double lengthOfStockBoardInInches) {
         this.currentPermutationOfListOfMeasurements = currentPermutationOfListOfMeasurements;
         this.lengthOfStockBoardInInches = lengthOfStockBoardInInches;
-        this.goalNumberOfBoards = goalNumberOfBoards;
         addNewBoardToList();
         determineTheBoardsNeededForTheCurrentPermutation();
     }
@@ -54,8 +52,13 @@ public class CutPlan {
             else if (this.boardList.get(this.boardList.size() - 1).boardIsFull) {
                 addNewBoardToList();
                 tryToAddMeasurementToCurrentBoard(measurement);
+                if (this.boardList.get(this.boardList.size() - 1).isMeasurementTooLongForStockLength()) {
+                    this.stockLengthIsTooShort = true;
+                    break;
+                }
             }
         }
+        // multiply cost of single board by length of boards list, set totalCost
     }
 
     public void tryToAddMeasurementToCurrentBoard(Double measurement) {

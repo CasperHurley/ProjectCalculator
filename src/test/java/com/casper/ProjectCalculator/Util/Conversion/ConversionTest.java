@@ -15,7 +15,6 @@ public class ConversionTest {
     @Test
     public void convertFeetToInches1() {
         assertEquals(24, conversion.convertFeetToInches(2), 0);
-
     }
 
     @Test

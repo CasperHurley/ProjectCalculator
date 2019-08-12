@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(path="/")
@@ -15,7 +16,7 @@ public class ProjectController {
 
     @RequestMapping(path="/create", method= RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<String> createProject(@RequestBody String json) throws IOException {
+    public ResponseEntity<String> createProject(@RequestBody String json) throws IOException, ExecutionException, InterruptedException {
         /*
             - Request body:
                 - User input from UI {
