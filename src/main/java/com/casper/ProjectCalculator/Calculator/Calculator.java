@@ -76,10 +76,10 @@ public class Calculator {
                 Integer currentIndex = startingPermutations.indexOf(startingPermutation);
                 Integer nextIndex = currentIndex + 1;
                 CutPlan bestCutPlanFromCurrentStartingPermutationThread;
-                if (nextIndex < startingPermutations.size()) {
-                    bestCutPlanFromCurrentStartingPermutationThread = getBestCutPlanFromCurrentStartingPermutationThread(startingPermutation, startingPermutations.get(currentIndex + 1));
-                } else {
-                    bestCutPlanFromCurrentStartingPermutationThread = getBestCutPlanFromCurrentStartingPermutationThread(startingPermutation, startingPermutations.get(0));
+                if (nextIndex < startingPermutations.size()) { // if not the last starting index
+                    bestCutPlanFromCurrentStartingPermutationThread = checkEachPermutationInThreadForBestCutPlan(startingPermutation, startingPermutations.get(currentIndex + 1));
+                } else { // if the last starting index
+                    bestCutPlanFromCurrentStartingPermutationThread = checkEachPermutationInThreadForBestCutPlan(startingPermutation, startingPermutations.get(0));
                 }
                 return bestCutPlanFromCurrentStartingPermutationThread;
             };
@@ -87,23 +87,6 @@ public class Calculator {
         }
         return callables;
     }
-
-    public CutPlan getBestCutPlanFromCurrentStartingPermutationThread(List<Double> startingPermutation, List<Double> nextStartingPermutation) {
-        List<Double> currentPermutation = startingPermutation;
-        CutPlan currentBestPlan = new CutPlan(currentPermutation, this.lengthOfSingleStockBoardInInches);
-
-        checkEachPermutationInThreadForBestPermutation();
-
-//        while (!currentPermutation.equals(nextStartingPermutation)) {
-//            CutPlan currentPlan = new CutPlan(currentPermutation, this.lengthOfSingleStockBoardInInches);
-//            if (tellMeIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(currentPlan, currentBestPlan)) {
-//                currentBestPlan = currentPlan;
-//            }
-//            currentPermutation =
-//        }
-        return currentBestPlan;
-    }
-
 
     public void shutdownExecutor() {
         executorService.shutdown();
@@ -140,14 +123,19 @@ public class Calculator {
         return copyOfList;
     }
 
-    public <T extends Comparable<T>> void checkEachPermutationInThreadForBestPermutation(List<Double> currentPermutation) {
-        // starts with startingPermutation, runs calculation, shifts, runs calculation, etc, that run func needs to keep updating the bestCutPlanForThisThread
+    public CutPlan checkEachPermutationInThreadForBestCutPlan(List<Double> startingPermutation, List<Double> nextStartingPermutation) {
+        List<Double> currentPermutation = startingPermutation;
         Collections.sort(currentPermutation);
         CutPlan bestCutPlanThisThread = new CutPlan(currentPermutation, this.lengthOfSingleStockBoardInInches);
 
         boolean hasNext = true;
-        while(hasNext) {
-            // printArray(currentPermutation); This is where the magic should happen
+        while(hasNext && (!currentPermutation.equals(nextStartingPermutation))) {
+
+            CutPlan currentPlan = new CutPlan(currentPermutation, this.lengthOfSingleStockBoardInInches);
+            if (tellMeIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(currentPlan, bestCutPlanThisThread)) {
+                bestCutPlanThisThread = currentPlan;
+            }
+
             int k = 0, l = 0;
             hasNext = false;
             for (int i = currentPermutation.size() - 1; i > 0; i--) {
