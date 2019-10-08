@@ -30,16 +30,13 @@ public class ProjectTest {
 //        stockLengthsToCheck.add(conversion.convertFeetToInches(8.0));
         stockLengthsToCheck.add(conversion.convertFeetToInches(10.0));
         stockLengthsToCheck.add(conversion.convertFeetToInches(12.0));
-        InputFromUI inputFromUI = new InputFromUI("Test Project", listOfMeasurements, stockLengthsToCheck);
+        InputFromUI inputFromUI = new InputFromUI("Test Project", listOfMeasurements, 12.0);
         Project testProject = new Project(inputFromUI);
-
-        testProject.getBestCutPlansForDifferentStockLengths().forEach(cutPlan -> {
-            System.out.println("New Cut Plan");
-            cutPlan.getBoardList().forEach(board -> {
-                System.out.println("New Board");
-                board.getMeasurementsInBoard().forEach(measurement -> {
-                    System.out.println(measurement);
-                });
+        System.out.println("New Cut Plan");
+        testProject.getBestCutPlan().getBoardList().forEach(board -> {
+            System.out.println("New Board");
+            board.getMeasurementsInBoard().forEach(measurement -> {
+                System.out.println(measurement);
             });
         });
     }

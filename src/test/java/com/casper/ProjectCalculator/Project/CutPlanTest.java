@@ -30,6 +30,15 @@ public class CutPlanTest {
         listOfMeasurements.add(45.0);
         listOfMeasurements.add(45.0);
         listOfMeasurements.add(55.0);
+        listOfMeasurements.add(35.0);
+        listOfMeasurements.add(45.0);
+        listOfMeasurements.add(45.0);
+        listOfMeasurements.add(55.0);
+        listOfMeasurements.add(25.0);
+        listOfMeasurements.add(35.0);
+        listOfMeasurements.add(45.0);
+        listOfMeasurements.add(45.0);
+        listOfMeasurements.add(55.0);
         Double lengthOfStockBoardInInches = conversion.convertFeetToInches(12.0);
         CutPlan testCutPlan = new CutPlan(listOfMeasurements, lengthOfStockBoardInInches);
         testCutPlan.getBoardList().forEach(board -> {

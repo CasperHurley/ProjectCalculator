@@ -11,7 +11,6 @@ import java.util.concurrent.*;
 public class Calculator {
     List<Double> listOfMeasurements;
     Double lengthOfSingleStockBoardInInches;
-//    Double goalNumberOfBoards;
 
     ExecutorService executorService;
     CutPlan bestCutPlan;
@@ -19,8 +18,11 @@ public class Calculator {
     public Calculator(List<Double> listOfMeasurements, Double lengthOfSingleStockBoardInInches) throws ExecutionException, InterruptedException {
         this.listOfMeasurements = listOfMeasurements;
         this.lengthOfSingleStockBoardInInches = lengthOfSingleStockBoardInInches;
-//        determineGoalNumberOfBoards();
         determineBestCutPlan();
+    }
+
+    public void setListOfMeasurements(List<Double> listOfMeasurements) {
+        this.listOfMeasurements = listOfMeasurements;
     }
 
     public CutPlan getBestCutPlan() {
@@ -31,12 +33,6 @@ public class Calculator {
         this.bestCutPlan = bestCutPlan;
     }
 
-
-//    public void determineGoalNumberOfBoards() {
-//        Double goalNumberOfBoards = getSumOfAllMeasurements() / this.lengthOfSingleStockBoardInInches;
-//        this.goalNumberOfBoards = goalNumberOfBoards;
-//    }
-
     public Double getSumOfAllMeasurements() {
         Double sumOfAllMeasurements = 0.0;
         for (Double measurement : this.listOfMeasurements) {
@@ -46,7 +42,9 @@ public class Calculator {
     }
 
     public void determineIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(CutPlan cutPlan) {
-        if (cutPlan.getBoardList().size() < bestCutPlan.getBoardList().size()) {
+        if (null != bestCutPlan && (cutPlan.getBoardList().size() < bestCutPlan.getBoardList().size())) {
+            setBestCutPlan(cutPlan);
+        } else if (null == bestCutPlan) {
             setBestCutPlan(cutPlan);
         }
     }
@@ -59,9 +57,13 @@ public class Calculator {
         List<Callable<CutPlan>> permutationThreads = createPermutationThreads();
         executorService = Executors.newFixedThreadPool(permutationThreads.size());
         List<Future<CutPlan>> bestCutPlanFromEachThreadAsListOfFutures = executorService.invokeAll(permutationThreads);
-        bestCutPlan = bestCutPlanFromEachThreadAsListOfFutures.get(0).get();
         for (Future<CutPlan> future : bestCutPlanFromEachThreadAsListOfFutures) {
-            determineIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(future.get());
+            try {
+                CutPlan cutPlan = future.get();
+                determineIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(cutPlan);
+            } catch(Exception ex) {
+                throw ex;
+            }
         }
         shutdownExecutor();
     }
@@ -69,9 +71,8 @@ public class Calculator {
     public List<Callable<CutPlan>> createPermutationThreads() {
         List<Callable<CutPlan>> callables = new ArrayList<>();
         List<List<Double>> startingPermutations = getAllStartingPermutations(listOfMeasurements);
-        // need to run for every permutation, create a thread for each starting permutation that calculates cutPlan, checks if it is better than the current best cutPlan for that Thread, if it is then make it the new best one, and the thread finally ends when it equals the start of the next thread
         for (List<Double> startingPermutation : startingPermutations) {
-            Callable<CutPlan> callableForBestArrangementFromCurrentPermutation = () -> {
+            Callable<CutPlan> callableForBestArrangementFromCurrentPermutationRange = () -> {
                 // run through all permutations until the start of the next one
                 Integer currentIndex = startingPermutations.indexOf(startingPermutation);
                 Integer nextIndex = currentIndex + 1;
@@ -83,7 +84,7 @@ public class Calculator {
                 }
                 return bestCutPlanFromCurrentStartingPermutationThread;
             };
-            callables.add(callableForBestArrangementFromCurrentPermutation);
+            callables.add(callableForBestArrangementFromCurrentPermutationRange);
         }
         return callables;
     }
@@ -154,19 +155,12 @@ public class Calculator {
             swap(currentPermutation, k, l);
             Collections.reverse(Arrays.asList(currentPermutation).subList(k + 1, currentPermutation.size()));
         }
+        return bestCutPlanThisThread;
     }
 
     private void swap(List<Double> currentPermutation, int a, int b) {
         Double tmp = currentPermutation.get(a);
         currentPermutation.set(a, currentPermutation.get(b));
         currentPermutation.set(b, tmp);
-    }
-
-    public List<Double> convertArrayToList(Double array[]) {
-        List<Double> list = new ArrayList<>();
-        for (Double t : array) {
-            list.add(t);
-        }
-        return list;
     }
 }
