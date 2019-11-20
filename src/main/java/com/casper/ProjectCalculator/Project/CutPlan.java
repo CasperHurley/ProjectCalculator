@@ -58,11 +58,17 @@ public class CutPlan {
                 }
             }
         }
-        // multiply cost of single board by length of boards list, set totalCost
+        // determineTotalCost();
+        //
+
+    }
+
+    public void determineTotalCost() {
+        // totalCost = boardList.size() * costOfSingleBoard;
     }
 
     public void tryToAddMeasurementToCurrentBoard(Double measurement) {
-        this.boardList.get(this.boardList.size() - 1).tryToAddMeasurementToBoard(measurement);
+        this.boardList.get(this.boardList.size() - 1).tryToIncludeMeasurementInBoard(measurement);
     }
 
     public void addNewBoardToList() {

@@ -2,7 +2,6 @@ package com.casper.ProjectCalculator.Project;
 
 import com.casper.ProjectCalculator.Calculator.Calculator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -11,10 +10,10 @@ public class Project {
     List<Double> listOfMeasurements;
     CutPlan bestCutPlan;
 
-    public Project(InputFromUI inputFromUI) throws ExecutionException, InterruptedException {
-        this.name = inputFromUI.getName();
-        this.listOfMeasurements = inputFromUI.getListOfMeasurements();
-        this.bestCutPlan = calculateBestCutPlan(inputFromUI.getStockLengthToCheck());
+    public Project(InputPayload inputPayload) throws ExecutionException, InterruptedException {
+        this.name = inputPayload.getName();
+        this.listOfMeasurements = inputPayload.getListOfMeasurements();
+        this.bestCutPlan = calculateBestCutPlan(inputPayload.getStockLengthToCheck());
     }
 
     public String getName() {

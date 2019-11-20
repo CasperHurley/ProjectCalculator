@@ -3,15 +3,15 @@ package com.casper.ProjectCalculator.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputFromUI {
+public class InputPayload {
     String name;
     List<Double> listOfMeasurements;
     Double stockLengthToCheck;
 
-    public InputFromUI() {
+    public InputPayload() {
     }
 
-    public InputFromUI(String name, List<Double> listOfMeasurements, Double stockLengthsToCheck) {
+    public InputPayload(String name, List<Double> listOfMeasurements, Double stockLengthsToCheck) {
         this.name = name;
         this.listOfMeasurements = listOfMeasurements;
         this.stockLengthToCheck = stockLengthsToCheck;

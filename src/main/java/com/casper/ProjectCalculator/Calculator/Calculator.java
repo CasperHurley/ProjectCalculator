@@ -41,7 +41,7 @@ public class Calculator {
         return sumOfAllMeasurements;
     }
 
-    public void determineIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(CutPlan cutPlan) {
+    public void determineIfThisCutPlanIsBetterThanCurrentBestCutPlan(CutPlan cutPlan) {
         if (null != bestCutPlan && (cutPlan.getBoardList().size() < bestCutPlan.getBoardList().size())) {
             setBestCutPlan(cutPlan);
         } else if (null == bestCutPlan) {
@@ -60,7 +60,7 @@ public class Calculator {
         for (Future<CutPlan> future : bestCutPlanFromEachThreadAsListOfFutures) {
             try {
                 CutPlan cutPlan = future.get();
-                determineIfCurrentCutPlanIsBetterThanCurrentBestCutPlan(cutPlan);
+                determineIfThisCutPlanIsBetterThanCurrentBestCutPlan(cutPlan);
             } catch(Exception ex) {
                 throw ex;
             }

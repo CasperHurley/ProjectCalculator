@@ -84,7 +84,7 @@ public class Board {
         this.measurementTooLongForStockLength = measurementTooLongForStockLength;
     }
 
-    public void tryToAddMeasurementToBoard(Double measurement) {
+    public void tryToIncludeMeasurementInBoard(Double measurement) {
         if (checkIfBoardCanFitMeasurement(measurement)) {
             this.measurementsInBoard.add(measurement);
             this.lengthRemaining -= measurement;

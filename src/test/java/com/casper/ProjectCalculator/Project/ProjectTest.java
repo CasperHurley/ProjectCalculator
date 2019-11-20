@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.Assert.*;
-
 public class ProjectTest {
 
     Conversion conversion = new Conversion();
@@ -30,8 +28,8 @@ public class ProjectTest {
 //        stockLengthsToCheck.add(conversion.convertFeetToInches(8.0));
         stockLengthsToCheck.add(conversion.convertFeetToInches(10.0));
         stockLengthsToCheck.add(conversion.convertFeetToInches(12.0));
-        InputFromUI inputFromUI = new InputFromUI("Test Project", listOfMeasurements, 12.0);
-        Project testProject = new Project(inputFromUI);
+        InputPayload inputPayload = new InputPayload("Test Project", listOfMeasurements, 12.0);
+        Project testProject = new Project(inputPayload);
         System.out.println("New Cut Plan");
         testProject.getBestCutPlan().getBoardList().forEach(board -> {
             System.out.println("New Board");

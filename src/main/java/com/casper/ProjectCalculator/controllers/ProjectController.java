@@ -1,6 +1,6 @@
 package com.casper.ProjectCalculator.controllers;
 
-import com.casper.ProjectCalculator.Project.InputFromUI;
+import com.casper.ProjectCalculator.Project.InputPayload;
 import com.casper.ProjectCalculator.Project.Project;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@RequestMapping(path="/")
+@RequestMapping(path="/project")
 public class ProjectController {
 
     @RequestMapping(path="/create", method= RequestMethod.POST, consumes = "application/json", produces = "application/json")
@@ -19,7 +19,7 @@ public class ProjectController {
     public ResponseEntity<String> createProject(@RequestBody String json) throws IOException, ExecutionException, InterruptedException {
         /*
             - Request body:
-                - User input from UI {
+                - Input Payload {
                     name: null,
                     listOfMeasurements: [#, #, #, #, #.##, #, #.##, #.###, #.##],
                     stockLengthsToCheck: [#, #, ##]
@@ -86,10 +86,10 @@ public class ProjectController {
                     ]
                 }
         */
-        InputFromUI inputFromUI = new InputFromUI();
+        InputPayload inputPayload = new InputPayload();
         ObjectMapper mapper = new ObjectMapper();
-        inputFromUI = mapper.readValue(json, InputFromUI.class);
-        Project project = new Project(inputFromUI);
+        inputPayload = mapper.readValue(json, InputPayload.class);
+        Project project = new Project(inputPayload);
         return new ResponseEntity<String>(mapper.writeValueAsString(project), HttpStatus.OK);
     }
 }
