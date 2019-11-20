@@ -1,4 +1,6 @@
 # ProjectCalculator
+
+![logo](https://images.assetsdelivery.com/compings_v2/sergeypykhonin/sergeypykhonin1707/sergeypykhonin170700075.jpg)
 API for calculating optimum materials and cost for carpentry projects.
 
 Why use this API?
